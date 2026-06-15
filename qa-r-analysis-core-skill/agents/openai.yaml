@@ -1,0 +1,4 @@
+interface:
+  display_name: "QA R Analysis Core"
+  short_description: "Shared QA analysis workflow for R"
+  default_prompt: "Use $qa-r-analysis-core-skill to select packages, validate data, and run a QA analysis in R."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "SPC Process Control"
+  short_description: "Control charts and stability analysis"
+  default_prompt: "Use $spc-process-control-skill to build control charts, detect signals, and interpret process stability in R."

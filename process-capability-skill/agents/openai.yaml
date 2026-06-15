@@ -1,0 +1,4 @@
+interface:
+  display_name: "Process Capability"
+  short_description: "Capability, specs, normality, and risk"
+  default_prompt: "Use $process-capability-skill to verify specs, stability, normality, and capability indices in R."

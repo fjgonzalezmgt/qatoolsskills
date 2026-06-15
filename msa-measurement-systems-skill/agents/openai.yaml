@@ -1,0 +1,4 @@
+interface:
+  display_name: "MSA Measurement Systems"
+  short_description: "Gage R&R and measurement system studies"
+  default_prompt: "Use $msa-measurement-systems-skill to evaluate measurement system variation, bias, linearity, stability, or attribute agreement in R."

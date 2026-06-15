@@ -1,0 +1,4 @@
+interface:
+  display_name: "Root Cause CAPA"
+  short_description: "Root cause, CAPA, and effectiveness"
+  default_prompt: "Use $root-cause-capa-skill to analyze root cause, define CAPA, and verify effectiveness with evidence."

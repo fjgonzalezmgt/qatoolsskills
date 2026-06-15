@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pareto AQL Inspection"
+  short_description: "Pareto prioritization and AQL plans"
+  default_prompt: "Use $pareto-aql-inspection-skill to prioritize defects, evaluate AQL sampling, and interpret inspection risk in R."

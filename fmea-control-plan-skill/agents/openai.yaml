@@ -1,0 +1,4 @@
+interface:
+  display_name: "FMEA Control Plan"
+  short_description: "FMEA risk analysis and control plans"
+  default_prompt: "Use $fmea-control-plan-skill to build or review an FMEA and connect risks to a control plan."

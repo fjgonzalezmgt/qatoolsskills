@@ -1,0 +1,4 @@
+interface:
+  display_name: "DOE Industrial Experiments"
+  short_description: "Industrial DOE from planning to RSM"
+  default_prompt: "Use $doe-industrial-experiments-skill to plan, design, analyze, and confirm an industrial DOE in R."
