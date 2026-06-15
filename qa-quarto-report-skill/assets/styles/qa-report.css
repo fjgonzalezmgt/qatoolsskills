@@ -1,0 +1,26 @@
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f2933;
+}
+
+h1, h2, h3 {
+  color: #17445e;
+}
+
+table {
+  width: 100%;
+}
+
+thead {
+  background: #e8f1f5;
+}
+
+blockquote {
+  border-left: 4px solid #1f5a7a;
+  padding-left: 1rem;
+  color: #334e68;
+}
+
+.callout-note {
+  border-left-color: #1f5a7a;
+}

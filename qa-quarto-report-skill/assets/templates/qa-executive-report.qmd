@@ -1,0 +1,51 @@
+---
+title: "{{TITLE}}"
+subtitle: "{{ANALYSIS_TYPE}}"
+author: "{{AUTHOR}}"
+date: "{{DATE}}"
+format:
+  html:
+    toc: false
+    embed-resources: true
+    css: styles/qa-report.css
+  docx:
+    toc: false
+  pdf:
+    toc: false
+execute:
+  echo: false
+  warning: false
+  message: false
+params:
+  process: "{{PROCESS}}"
+  report_revision: "{{REVISION}}"
+---
+
+```{r}
+#| label: setup
+#| include: false
+options(width = 100)
+```
+
+# Decision
+
+Replace this with the one-sentence QA decision.
+
+# Evidence
+
+| Evidence | Result | Interpretation |
+|---|---:|---|
+| Replace | 0 | Replace |
+
+# Risk
+
+Summarize the most important technical and operational risks.
+
+# Recommended Action
+
+State the action, owner, timing, and confirmation requirement.
+
+# Notes
+
+- Process or product: `r params$process`
+- Revision: `r params$report_revision`

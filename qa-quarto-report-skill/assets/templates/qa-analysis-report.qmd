@@ -1,0 +1,108 @@
+---
+title: "{{TITLE}}"
+subtitle: "{{ANALYSIS_TYPE}}"
+author: "{{AUTHOR}}"
+date: "{{DATE}}"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    embed-resources: true
+    css: styles/qa-report.css
+  docx:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+execute:
+  echo: false
+  warning: false
+  message: false
+params:
+  data_path: "{{DATA_PATH}}"
+  process: "{{PROCESS}}"
+  report_revision: "{{REVISION}}"
+---
+
+```{r}
+#| label: setup
+#| include: false
+options(width = 100)
+set.seed(123)
+```
+
+# Executive Summary
+
+**Decision:** Replace this with the QA decision.
+
+**Key evidence:** Replace this with the most important results.
+
+**Recommended action:** Replace this with the operational next step.
+
+# Scope And Objective
+
+- Process or product: `r params$process`
+- Analysis type: {{ANALYSIS_TYPE}}
+- Report revision: `r params$report_revision`
+- Data source: `r params$data_path`
+
+# Data Readiness
+
+```{r}
+#| label: data-readiness-placeholder
+if (nzchar(params$data_path) && file.exists(params$data_path)) {
+  data <- read.csv(params$data_path, stringsAsFactors = FALSE)
+  data.frame(
+    rows = nrow(data),
+    columns = ncol(data),
+    missing_cells = sum(is.na(data))
+  )
+} else {
+  data.frame(
+    note = "No data file was loaded. Replace this section with the data readiness checks."
+  )
+}
+```
+
+# Method
+
+Document the method, package selection, assumptions, and why the method fits the QA question.
+
+# Results
+
+Insert the main tables and figures here.
+
+```{r}
+#| label: example-plot
+#| fig-cap: "Example placeholder figure. Replace with analysis output."
+plot(cars$speed, cars$dist, pch = 19, col = "#1F5A7A",
+     xlab = "Speed", ylab = "Distance")
+```
+
+# QA Interpretation
+
+Translate statistical results into process meaning, risk, and action.
+
+# Risks And Limitations
+
+- Document missing information.
+- Document assumption failures.
+- Document sample size or data-quality limitations.
+- Document whether MSA, stability, or confirmation is still needed.
+
+# Actions And Follow-Up
+
+| Action | Owner | Due Date | Evidence |
+|---|---|---|---|
+| Replace with action | TBD | TBD | TBD |
+
+# Reproducibility
+
+```{r}
+#| label: session-info
+sessionInfo()
+```

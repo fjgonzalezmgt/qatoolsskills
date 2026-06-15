@@ -1,0 +1,4 @@
+interface:
+  display_name: "QA Quarto Report"
+  short_description: "Deliverable QA reports in Quarto"
+  default_prompt: "Use $qa-quarto-report-skill to create and render a deliverable Quarto report for a QA analysis."

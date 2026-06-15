@@ -16,7 +16,8 @@ Use this skill as the shared foundation for QA analyses in R. Pair it with the s
 3. Select R packages from current official sources. Prefer CRAN pages, CRAN Task Views, package reference manuals, pkgdown sites, and vignettes. Avoid archived packages unless the user explicitly accepts the risk.
 4. Check installed packages locally before proposing installation. Use `scripts/qa_r_package_check.R` when helpful.
 5. Write R code that is reproducible from a clean session: load packages, declare inputs, validate assumptions, run the analysis, save tables/plots if requested, and print a concise QA interpretation.
-6. Separate statistical evidence from operational judgment. State assumptions, limitations, risks, and recommended actions.
+6. When the user asks for a deliverable report, invoke `qa-quarto-report-skill` to create a Quarto `.qmd` and render HTML, Word, or PDF.
+7. Separate statistical evidence from operational judgment. State assumptions, limitations, risks, and recommended actions.
 
 ## Package Selection Rules
 
@@ -40,6 +41,7 @@ The final answer should normally include:
 - data checks performed;
 - package and method selected;
 - R code or created script path;
+- Quarto report path when requested;
 - key numeric results;
 - QA interpretation;
 - assumptions and recommended next action.

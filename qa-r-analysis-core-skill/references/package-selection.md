@@ -9,6 +9,7 @@ Use this reference when choosing or justifying R packages for quality analysis. 
 - Modeling and summaries: `stats`, `broom`, `emmeans`.
 - Visualization: `ggplot2`, `patchwork`, `scales`.
 - Reporting: `gt`, `knitr`, `rmarkdown`, `quarto`.
+- Deliverable reports: use Quarto CLI and `qa-quarto-report-skill` templates when the user asks for a final report.
 
 ## QA Method Packages
 
