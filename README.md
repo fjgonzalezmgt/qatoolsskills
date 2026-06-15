@@ -31,97 +31,199 @@ Estas skills evitan tener que buscar manualmente la documentacion cada vez que s
 
 ## Ejemplos De Uso
 
-Usa el nombre de la skill con `$skill-name` cuando quieras forzar una especialidad. Puedes combinar una skill analitica con `qa-quarto-report-skill` cuando necesites un entregable final.
+Usa el nombre de la skill con `$skill-name` cuando quieras forzar una especialidad. Combina una skill analitica con `qa-quarto-report-skill` cuando necesites un entregable final.
+
+### Mapa Rapido De Seleccion
+
+```mermaid
+flowchart TD
+  A["Problema QA o archivo de datos"] --> B{"Necesitas decidir metodo, paquetes o validar datos?"}
+  B -->|Si| CORE["$qa-r-analysis-core-skill"]
+  B -->|No| C{"Tipo de analisis"}
+  CORE --> C
+  C -->|Estabilidad del proceso| SPC["$spc-process-control-skill"]
+  C -->|Sistema de medicion| MSA["$msa-measurement-systems-skill"]
+  C -->|Cumplimiento contra specs| CAP["$process-capability-skill"]
+  C -->|Riesgo preventivo| FMEA["$fmea-control-plan-skill"]
+  C -->|No conformidad o recurrencia| CAPA["$root-cause-capa-skill"]
+  C -->|Defectos, inspeccion o muestreo| AQL["$pareto-aql-inspection-skill"]
+  C -->|Experimentacion u optimizacion| DOE["$doe-industrial-experiments-skill"]
+  SPC --> Q{"Reporte entregable?"}
+  MSA --> Q
+  CAP --> Q
+  FMEA --> Q
+  CAPA --> Q
+  AQL --> Q
+  DOE --> Q
+  Q -->|Si| REPORT["$qa-quarto-report-skill"]
+  Q -->|No| OUT["Codigo, tablas, graficos e interpretacion"]
+```
+
+### Flujo Analisis Mas Reporte
+
+```mermaid
+sequenceDiagram
+  participant U as Usuario
+  participant C as Codex
+  participant R as R
+  participant Q as Quarto
+  U->>C: Solicita analisis QA con datos y decision requerida
+  C->>C: Usa skill especialista y qa-r-analysis-core-skill
+  C->>R: Valida datos, selecciona paquetes y ejecuta analisis
+  R-->>C: Tablas, modelos, graficos y diagnosticos
+  C->>C: Interpreta resultados en lenguaje QA
+  C->>Q: Usa qa-quarto-report-skill para crear .qmd
+  Q-->>U: Entrega HTML, Word o PDF con decision, evidencia y acciones
+```
+
+### Patron De Prompt Recomendado
+
+```text
+Usa $skill-name y, si aplica, $qa-quarto-report-skill.
+
+Datos:
+- Archivo:
+- Columnas importantes:
+- Specs, objetivo o criterio de aceptacion:
+- Segmentos relevantes: linea, maquina, turno, lote, operador, proveedor:
+
+Necesito:
+- Decision QA:
+- Graficos y tablas:
+- Codigo R reproducible:
+- Reporte Quarto: si/no; formato HTML, Word o PDF:
+
+Restricciones:
+- No instales paquetes sin aprobacion.
+- Verifica documentacion actual si el paquete o funcion puede haber cambiado.
+- Explica supuestos, riesgos y siguiente accion.
+```
 
 ### `qa-r-analysis-core-skill`
 
 ```text
-Usa $qa-r-analysis-core-skill para revisar este CSV, identificar columnas utiles para QA, verificar paquetes R instalados y proponer el analisis adecuado.
+Usa $qa-r-analysis-core-skill con el archivo datos/produccion.csv. Identifica columnas utiles para QA, revisa faltantes, duplicados, tipos de dato, posibles mezclas de poblaciones y columnas de estratificacion como fecha, lote, turno, maquina y operador. Verifica paquetes R instalados para SPC, capacidad, MSA y reportes. Recomiendame el analisis correcto, el paquete R mas adecuado y un plan de ejecucion antes de escribir el codigo final.
 ```
 
+Resultado esperado: diagnostico de datos, metodo recomendado, paquetes sugeridos, riesgos de los datos y primer script R reproducible.
+
 ```text
-Usa $qa-r-analysis-core-skill para buscar el paquete R mas adecuado y vigente para este analisis de calidad antes de escribir codigo.
+Usa $qa-r-analysis-core-skill para buscar documentacion vigente y decidir entre qcc, SixSigma u otro paquete activo para un analisis de capacidad no normal. No uses paquetes archivados como default. Devuelveme la justificacion tecnica y el fallback si el paquete no esta instalado.
 ```
+
+Resultado esperado: seleccion razonada de paquetes, fuentes oficiales revisadas o limitacion declarada, y ruta de implementacion.
 
 ### `qa-quarto-report-skill`
 
 ```text
-Usa $qa-quarto-report-skill para crear un reporte Quarto entregable en HTML y Word a partir de los resultados del analisis de capacidad.
+Usa $qa-quarto-report-skill para crear reports/capacidad_linea_1.qmd a partir de los resultados del analisis de capacidad. Quiero salida HTML y Word, resumen ejecutivo al inicio, tabla de specs, Cp/Cpk/Pp/Ppk, PPM observado, normalidad, estabilidad, riesgos y acciones recomendadas. Usa el template general y deja una seccion de reproducibilidad con sessionInfo().
 ```
 
+Resultado esperado: `.qmd` listo para renderizar, CSS copiado, comandos `quarto render` y reporte con estructura ejecutiva.
+
 ```text
-Usa $qa-quarto-report-skill para generar un .qmd ejecutivo con decision, evidencia, riesgos y acciones recomendadas.
+Usa $qa-quarto-report-skill para generar un reporte ejecutivo de una pagina sobre una CAPA. Debe incluir decision, evidencia antes/despues, riesgo residual, responsable, fecha objetivo y criterio de efectividad. Entregalo como HTML autocontenido.
 ```
+
+Resultado esperado: reporte breve para gerencia, sin sobrecargar con codigo ni salida de consola.
 
 ### `spc-process-control-skill`
 
 ```text
-Usa $spc-process-control-skill para seleccionar la carta de control correcta, evaluar estabilidad y detectar senales especiales en estos datos de produccion.
+Usa $spc-process-control-skill con datos/torque_final.csv. Columnas: fecha_hora, linea, turno, lote, subgrupo, torque_nm. Selecciona la carta correcta entre I-MR, Xbar-R o Xbar-S segun la estructura real. Evalua estabilidad, senales especiales, patrones por turno o lote y explica si los limites deben mantenerse, investigarse o recalcularse. Genera codigo R reproducible y una interpretacion operativa.
 ```
 
+Resultado esperado: carta seleccionada, limites de control, senales, estratificacion util, advertencia si hay mezcla de procesos y plan de reaccion.
+
 ```text
-Usa $spc-process-control-skill y $qa-quarto-report-skill para crear un reporte de estabilidad del proceso con carta I-MR, interpretacion y reaccion operativa.
+Usa $spc-process-control-skill y $qa-quarto-report-skill para crear un reporte de estabilidad de proceso. Incluye carta I-MR, resumen de puntos fuera de control, posible causa por fecha/lote, decision estable/inestable, recomendaciones de contencion y anexo con codigo R.
 ```
+
+Resultado esperado: reporte Quarto con evidencia visual y decision de estabilidad.
 
 ### `msa-measurement-systems-skill`
 
 ```text
-Usa $msa-measurement-systems-skill para analizar este estudio Gage R&R cruzado con partes, operadores, replicas y mediciones.
+Usa $msa-measurement-systems-skill con datos/msa_grr.csv. Columnas: parte, operador, replica, medicion_mm. El estudio es Gage R&R cruzado con 10 partes, 3 operadores y 3 replicas. La tolerancia total es 0.20 mm. Evalua repetibilidad, reproducibilidad, variacion parte-a-parte, interaccion parte-operador, %GRR, ndc y si el sistema sirve para decisiones de capacidad.
 ```
 
+Resultado esperado: diagnostico del diseno MSA, resultados numericos, riesgos de medicion y decision de aceptabilidad para el uso previsto.
+
 ```text
-Usa $msa-measurement-systems-skill para evaluar acuerdo por atributos entre inspectores contra un estandar y explicar falsos aceptados/rechazados.
+Usa $msa-measurement-systems-skill con datos/atributos_inspeccion.csv. Columnas: pieza, inspector, intento, resultado, estandar. Evalua acuerdo intra-inspector, acuerdo entre inspectores, acuerdo contra estandar, kappa si aplica, falsos aceptados y falsos rechazados. Explica el riesgo para liberacion de producto.
 ```
+
+Resultado esperado: matriz de acuerdo, indicadores de riesgo y recomendacion de entrenamiento, criterio visual o mejora del sistema de inspeccion.
 
 ### `process-capability-skill`
 
 ```text
-Usa $process-capability-skill para verificar specs, estabilidad, normalidad, Cp, Cpk, Pp, Ppk y PPM de esta caracteristica critica.
+Usa $process-capability-skill con datos/diametro_eje.csv. Columnas: fecha_hora, maquina, cavidad, diametro_mm. Specs: LSL 9.95, target 10.00, USL 10.05. Primero verifica cumplimiento observado contra specs, luego estabilidad con carta apropiada, normalidad, posible mezcla por maquina/cavidad y finalmente Cp, Cpk, Pp, Ppk, Cpm y PPM. Si no hay normalidad, propone alternativa y explica el riesgo.
 ```
 
+Resultado esperado: decision capaz/no capaz, causa principal del riesgo, recomendacion de centrar, reducir variacion, estratificar o mejorar medicion.
+
 ```text
-Usa $process-capability-skill y $qa-quarto-report-skill para entregar un reporte de capacidad en Quarto con decision ejecutiva y riesgos.
+Usa $process-capability-skill y $qa-quarto-report-skill para entregar un reporte Quarto de capacidad en HTML y Word. El reporte debe iniciar con una decision ejecutiva, incluir histogramas, QQ plot, carta de estabilidad, tabla de indices e interpretacion de riesgos para cliente.
 ```
+
+Resultado esperado: `.qmd` y artefactos renderizados con datos, graficos, indices y acciones recomendadas.
 
 ### `fmea-control-plan-skill`
 
 ```text
-Usa $fmea-control-plan-skill para revisar este PFMEA, detectar brechas en controles preventivos/detectivos y proponer acciones.
+Usa $fmea-control-plan-skill con pfmea_empaque.xlsx. Revisa funcion, modo de falla, efecto, causa, controles preventivos, controles detectivos, severidad, ocurrencia y deteccion. Identifica cadenas logicas debiles, controles mal clasificados, riesgos altos sin accion, causas vagas como "error humano" y acciones sin evidencia. No inventes tablas de rating: usa las columnas existentes y pide el manual si falta.
 ```
 
+Resultado esperado: lista priorizada de brechas, acciones recomendadas, riesgos que requieren escalacion y supuestos de rating.
+
 ```text
-Usa $fmea-control-plan-skill para convertir los riesgos altos del AMEF en entradas concretas de plan de control con reaccion, frecuencia y evidencia.
+Usa $fmea-control-plan-skill para convertir los riesgos altos del AMEF en un plan de control. Para cada riesgo incluye caracteristica, especificacion, metodo de control, tamano de muestra, frecuencia, responsable, registro requerido y reaccion ante no conformidad.
 ```
+
+Resultado esperado: tabla de plan de control lista para revision con produccion/calidad.
 
 ### `root-cause-capa-skill`
 
 ```text
-Usa $root-cause-capa-skill para estructurar causa raiz, contencion, CAPA y verificacion de efectividad para esta no conformidad.
+Usa $root-cause-capa-skill para la NC-2026-014: aumento de fugas en empaque desde el 2026-05-20. Datos disponibles: defectos_por_lote.csv con lote, fecha, linea, turno, material, proveedor, defecto y cantidad. Estructura contencion, 5 Why, Ishikawa, analisis de estratificacion, causa raiz verificada, accion correctiva, accion preventiva y criterio de efectividad.
 ```
 
+Resultado esperado: narrativa CAPA completa, evidencia requerida para cada causa, acciones con responsables y prueba de efectividad.
+
 ```text
-Usa $root-cause-capa-skill para analizar datos antes/despues de una accion correctiva y decidir si la CAPA fue efectiva.
+Usa $root-cause-capa-skill para analizar datos antes/despues de una accion correctiva. Columnas: periodo, lote, defectos, unidades_inspeccionadas. Evalua si la tasa de defectos bajo despues de la accion, si hay suficiente evidencia para cerrar CAPA y que monitoreo adicional recomiendas.
 ```
+
+Resultado esperado: comparacion estadistica o grafica antes/despues, conclusion de efectividad y riesgo residual.
 
 ### `pareto-aql-inspection-skill`
 
 ```text
-Usa $pareto-aql-inspection-skill para crear un Pareto de defectos por categoria, estratificar por linea y recomendar prioridades.
+Usa $pareto-aql-inspection-skill con datos/defectos_recibo.csv. Columnas: fecha, proveedor, lote, defecto, clase_defecto, cantidad, costo_estimado. Crea Pareto por conteo, costo y clase de defecto. Estratifica por proveedor y recomienda los tres focos principales de mejora, aclarando si el Pareto sugiere prioridad pero no causa raiz.
 ```
 
+Resultado esperado: tablas Pareto, graficos, prioridades por impacto y recomendaciones de investigacion.
+
 ```text
-Usa $pareto-aql-inspection-skill para evaluar un plan AQL, explicar la regla de aceptacion/rechazo y construir una curva OC.
+Usa $pareto-aql-inspection-skill para evaluar inspeccion AQL de lotes de 3,200 unidades, nivel general II, AQL 1.0 para defectos mayores y plan simple. Explica tamano de muestra, numero de aceptacion/rechazo, curva OC, riesgo de aceptar lotes malos y como documentar la decision de lote.
 ```
+
+Resultado esperado: plan de muestreo, regla de decision, interpretacion de riesgo productor/cliente y advertencia de que AQL no demuestra capacidad.
 
 ### `doe-industrial-experiments-skill`
 
 ```text
-Usa $doe-industrial-experiments-skill para planificar un DOE industrial desde objetivo, factores, niveles, restricciones y seleccion del diseno.
+Usa $doe-industrial-experiments-skill para planificar un DOE que reduzca humedad final. Respuesta: humedad_pct. Factores candidatos: temperatura 70-90 C, tiempo 20-40 min, velocidad 100-160 rpm, proveedor A/B. Restricciones: temperatura y tiempo son costosos de cambiar; maximo 24 corridas; necesito detectar interacciones importantes y decidir si luego aplica superficie de respuesta. Entrega diseno recomendado, run table, aleatorizacion/bloqueo y codigo R.
 ```
+
+Resultado esperado: plan experimental defendible, diseno seleccionado, supuestos, corridas, modelo propuesto y riesgos por restricciones.
 
 ```text
 Usa $doe-industrial-experiments-skill y $qa-quarto-report-skill para analizar un DOE con modelo, interacciones, diagnosticos, superficie de respuesta y corridas de confirmacion.
 ```
+
+Resultado esperado: analisis ANOVA/modelo, efectos principales, interacciones, diagnosticos, RSM si aplica, configuracion recomendada y reporte Quarto.
 
 ## Filosofia De Uso
 
