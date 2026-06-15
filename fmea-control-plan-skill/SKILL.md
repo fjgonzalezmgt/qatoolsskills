@@ -7,7 +7,7 @@ description: FMEA and control plan support for quality engineering. Use for AMEF
 
 ## Workflow
 
-Use `qa-r-analysis-core-skill` when working with FMEA tables, defect history, occurrence evidence, detection evidence, or R-based prioritization.
+Start automatically with the `qa-r-analysis-core-skill` preflight when working with FMEA tables, defect history, occurrence evidence, detection evidence, or R-based prioritization. Validate data readiness, check installed packages, verify current documentation if needed, select the package/workflow, and outline the analysis plan before final code.
 
 1. Define scope: product/process, boundary, function, step, customer, and intended FMEA type.
 2. Structure the FMEA: function, requirement, failure mode, effect, severity, cause, occurrence, prevention control, detection control, detection rating, and action priority or RPN.

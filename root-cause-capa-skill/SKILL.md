@@ -7,7 +7,7 @@ description: Root cause and CAPA workflow for quality issues. Use for problem de
 
 ## Workflow
 
-Use `qa-r-analysis-core-skill` when defect, complaint, nonconformance, audit, or process data must be analyzed in R.
+Start automatically with the `qa-r-analysis-core-skill` preflight when defect, complaint, nonconformance, audit, or process data must be analyzed in R. Validate data readiness, check installed packages, verify current documentation if needed, select the package/workflow, and outline the analysis plan before final code.
 
 1. Define the problem with evidence: what, where, when, how much, trend, customer impact, and detection point.
 2. Separate containment from corrective action.

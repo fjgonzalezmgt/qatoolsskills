@@ -7,7 +7,7 @@ description: Statistical process control analysis in R for control charts, proce
 
 ## Workflow
 
-Use `qa-r-analysis-core-skill` first when package selection, data readiness, or R environment checks are needed.
+Start automatically with the `qa-r-analysis-core-skill` preflight when data or R output is involved: validate data readiness, check installed packages, verify current documentation if needed, select the package/workflow, and outline the analysis plan before final code.
 
 1. Identify data type: continuous measurement, proportion defective, defect count, or rate per unit.
 2. Confirm sampling structure: individual values, rational subgroups, subgroup size, time order, lot order, and phase I versus phase II use.

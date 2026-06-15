@@ -33,14 +33,29 @@ Estas skills evitan tener que buscar manualmente la documentacion cada vez que s
 
 Usa el nombre de la skill con `$skill-name` cuando quieras forzar una especialidad. Combina una skill analitica con `qa-quarto-report-skill` cuando necesites un entregable final.
 
+### Comportamiento Automatico
+
+No necesitas pedir en cada prompt que Codex verifique paquetes, busque documentacion
+actualizada, seleccione el metodo o prepare el plan. Eso es parte del preflight
+automatico de `qa-r-analysis-core-skill` y de las skills especialistas cuando hay
+datos, R o reporte involucrado.
+
+Por defecto, las skills deben:
+
+1. validar datos y columnas disponibles;
+2. inferir el tipo de analisis QA;
+3. revisar paquetes R instalados cuando haya ejecucion local;
+4. verificar documentacion oficial si el paquete, funcion o metodo puede haber cambiado;
+5. elegir el paquete o workflow R mas adecuado y un fallback;
+6. preparar el plan de ejecucion antes del codigo final;
+7. pedir solo informacion que bloquee el analisis.
+
 ### Mapa Rapido De Seleccion
 
 ```mermaid
 flowchart TD
-  A["Problema QA o archivo de datos"] --> B{"Necesitas decidir metodo, paquetes o validar datos?"}
-  B -->|Si| CORE["$qa-r-analysis-core-skill"]
-  B -->|No| C{"Tipo de analisis"}
-  CORE --> C
+  A["Problema QA o archivo de datos"] --> CORE["Preflight automatico: $qa-r-analysis-core-skill"]
+  CORE --> C{"Tipo de analisis"}
   C -->|Estabilidad del proceso| SPC["$spc-process-control-skill"]
   C -->|Sistema de medicion| MSA["$msa-measurement-systems-skill"]
   C -->|Cumplimiento contra specs| CAP["$process-capability-skill"]
@@ -95,7 +110,6 @@ Necesito:
 
 Restricciones:
 - No instales paquetes sin aprobacion.
-- Verifica documentacion actual si el paquete o funcion puede haber cambiado.
 - Explica supuestos, riesgos y siguiente accion.
 ```
 
@@ -104,24 +118,20 @@ Restricciones:
 **Prompt 1**
 
 > Usa `$qa-r-analysis-core-skill` con el archivo `datos/produccion.csv`.
-> Identifica columnas utiles para QA, revisa faltantes, duplicados, tipos de dato,
-> posibles mezclas de poblaciones y columnas de estratificacion como fecha, lote,
-> turno, maquina y operador.
 >
-> Verifica paquetes R instalados para SPC, capacidad, MSA y reportes.
-> Recomiendame el analisis correcto, el paquete R mas adecuado y un plan de
-> ejecucion antes de escribir el codigo final.
+> Necesito saber que analisis QA corresponde, que datos parecen listos o riesgosos,
+> y cual seria el siguiente paso recomendado.
 
 Resultado esperado: diagnostico de datos, metodo recomendado, paquetes sugeridos,
 riesgos de los datos y primer script R reproducible.
 
 **Prompt 2**
 
-> Usa `$qa-r-analysis-core-skill` para buscar documentacion vigente y decidir entre
-> `qcc`, `SixSigma` u otro paquete activo para un analisis de capacidad no normal.
-> No uses paquetes archivados como default.
+> Usa `$qa-r-analysis-core-skill` para preparar un analisis de capacidad no normal.
+> Quiero la recomendacion del metodo, paquete R activo y fallback si el paquete
+> preferido no esta instalado.
 >
-> Devuelveme la justificacion tecnica y el fallback si el paquete no esta instalado.
+> No uses paquetes archivados como default.
 
 Resultado esperado: seleccion razonada de paquetes, fuentes oficiales revisadas o
 limitacion declarada, y ruta de implementacion.
@@ -345,7 +355,7 @@ Cada skill sigue el mismo patron:
 6. Interpretar en lenguaje QA.
 7. Recomendar accion operacional.
 
-La skill base `qa-r-analysis-core-skill` se debe combinar con las skills especialistas cuando el analisis requiera R, seleccion de paquetes o validacion de datos.
+Las skills especialistas activan el preflight de `qa-r-analysis-core-skill` cuando el analisis requiera R, seleccion de paquetes, validacion de datos o reporte. No hace falta pedirlo de forma explicita.
 
 ## Paquetes R Iniciales
 

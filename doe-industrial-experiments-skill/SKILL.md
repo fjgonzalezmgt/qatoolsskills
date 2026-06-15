@@ -7,7 +7,7 @@ description: Industrial design of experiments in R from planning through confirm
 
 ## Workflow
 
-Use `qa-r-analysis-core-skill` first for data contract, package selection, and current documentation checks.
+Start automatically with the `qa-r-analysis-core-skill` preflight for data contract, package selection, installed package checks, and current documentation checks. Do not wait for the user to request those checks; outline the DOE plan before final code or run-table generation.
 
 1. Plan the experiment before coding. Define objective, response, CTQ, unit, factor list, levels, constraints, noise factors, blocking, randomization, replication, and success criteria.
 2. Confirm measurement system readiness. If MSA is weak, warn that DOE conclusions may be unreliable.

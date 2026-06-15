@@ -7,7 +7,7 @@ description: Measurement systems analysis in R for continuous and attribute data
 
 ## Workflow
 
-Use `qa-r-analysis-core-skill` first when package selection, data readiness, or documentation checks are needed.
+Start automatically with the `qa-r-analysis-core-skill` preflight when data or R output is involved: validate data readiness, check installed packages, verify current documentation if needed, select the package/workflow, and outline the analysis plan before final code.
 
 1. Identify study type: continuous Gage R&R, attribute agreement, bias, linearity, or stability.
 2. Validate design: parts, operators/appraisers, trials, reference values, randomization, range coverage, and whether the study is crossed or nested.

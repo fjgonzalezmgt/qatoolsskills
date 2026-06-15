@@ -7,7 +7,7 @@ description: Pareto, AQL, sampling, and inspection analysis in R. Use for defect
 
 ## Workflow
 
-Use `qa-r-analysis-core-skill` when package selection, data readiness, or R analysis setup is needed.
+Start automatically with the `qa-r-analysis-core-skill` preflight when data or R output is involved: validate data readiness, check installed packages, verify current documentation if needed, select the package/workflow, and outline the analysis plan before final code.
 
 1. Identify whether the task is Pareto prioritization, AQL sampling, or both.
 2. For Pareto, validate categories, counts, severity, cost, escape risk, and stratification fields.

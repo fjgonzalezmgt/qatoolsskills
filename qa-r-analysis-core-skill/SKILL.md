@@ -9,6 +9,19 @@ description: Shared QA analysis workflow for R. Use when Codex must run or desig
 
 Use this skill as the shared foundation for QA analyses in R. Pair it with the specialist skill for the actual method, then use this skill to choose packages, validate data, keep code reproducible, and avoid stale documentation.
 
+## Automatic Preflight
+
+Run this preflight by default for QA analysis requests that involve data, R code, package choice, or a deliverable report. Do not wait for the user to explicitly ask for package checks, documentation checks, method selection, or an execution plan.
+
+Automatically:
+
+1. Inspect available data and infer the likely QA analysis family.
+2. Check whether required R packages are installed when local R execution is available.
+3. Verify current official documentation when package choice, function syntax, or analysis method may have changed.
+4. Select the most appropriate active package or base R workflow and identify a fallback.
+5. Draft the analysis plan before writing final code unless the user asks for code-only output.
+6. Ask only for missing information that blocks the decision, such as absent spec limits, missing response variable, or unclear study design.
+
 ## Core Workflow
 
 1. Clarify the QA question, response variable, process context, unit of analysis, available stratification columns, and required decision.

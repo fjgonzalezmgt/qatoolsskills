@@ -1,6 +1,6 @@
 # R Package Selection For QA
 
-Use this reference when choosing or justifying R packages for quality analysis. Prefer active packages with official documentation. If the task is current or package APIs may have changed, verify with CRAN, the package manual, vignettes, or pkgdown before writing final code.
+Use this reference when choosing or justifying R packages for quality analysis. This package selection happens automatically during the QA analysis preflight; the user should not need to request it explicitly. Prefer active packages with official documentation. If the task is current or package APIs may have changed, verify with CRAN, the package manual, vignettes, or pkgdown before writing final code.
 
 ## Baseline Packages
 
