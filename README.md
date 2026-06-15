@@ -264,6 +264,18 @@ Este repo contiene carpetas de skills completas. Para que Codex las descubra aut
 
 Tambien puedes mantenerlas en este repo para versionarlas y copiar solo las que quieras activar.
 
+## Requisitos Generales
+
+Para ejecutar los workflows de analisis y reporte se recomienda contar con:
+
+- R instalado y disponible desde la terminal o entorno de trabajo;
+- paquetes R necesarios para el analisis especifico;
+- Quarto instalado cuando se requieran reportes `.qmd` renderizables;
+- acceso a los archivos de datos y permisos de lectura/escritura en las carpetas de trabajo;
+- conexion a internet cuando sea necesario consultar documentacion oficial o instalar paquetes aprobados.
+
+Las versiones concretas de R, Quarto y paquetes deben verificarse en el ambiente donde se ejecute el analisis.
+
 ## Estructura
 
 Cada skill incluye:
@@ -300,12 +312,6 @@ Comandos tipicos:
 quarto render report.qmd --to html
 quarto render report.qmd --to docx
 quarto render report.qmd --to pdf
-```
-
-En esta maquina se encontro Quarto 1.9.37 y R 4.5.1. `Rscript.exe` esta instalado en:
-
-```text
-C:\Program Files\R\R-4.5.1\bin\Rscript.exe
 ```
 
 ## Estado Del Proyecto
