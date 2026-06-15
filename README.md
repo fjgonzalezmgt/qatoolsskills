@@ -1,19 +1,38 @@
 # QA Tools Skills For Codex
 
-Paquete de skills para que Codex ayude a realizar analisis de calidad en R con criterio tecnico, seleccion actualizada de paquetes y salidas orientadas a decisiones QA.
+Skills para usar Codex como asistente tecnico en analisis de calidad con R.
+
+El objetivo es que Codex no solo genere codigo, sino que ayude a estructurar el problema, validar datos, seleccionar metodos adecuados, ejecutar analisis reproducibles e interpretar resultados en lenguaje de calidad.
+
+Este repo esta orientado a analisis como SPC, MSA, capacidad de proceso, FMEA, CAPA, Pareto, AQL y DOE, con foco en decisiones operativas, supuestos estadisticos y riesgos de interpretacion.
 
 ## Objetivo
 
-Estas skills evitan tener que buscar manualmente la documentacion cada vez que se necesita un analisis. Codex debe:
+Estas skills buscan reducir friccion en analisis tecnicos de calidad. Codex debe ayudar a:
 
-- entender el problema QA;
-- validar los datos disponibles;
-- seleccionar paquetes R adecuados y activos;
-- consultar documentacion oficial cuando el API o la seleccion pueda estar desactualizada;
+- entender el problema QA y la decision requerida;
+- validar datos, columnas, unidades, specs y estructura del archivo;
+- seleccionar paquetes R adecuados, activos y defendibles;
+- consultar documentacion oficial cuando el API, paquete o metodo pueda estar desactualizado;
 - generar codigo R reproducible;
 - generar reportes Quarto entregables cuando se solicite;
-- interpretar resultados en lenguaje de calidad;
-- declarar supuestos, riesgos y acciones recomendadas.
+- interpretar resultados en lenguaje de calidad, operaciones y riesgo;
+- declarar supuestos, limitaciones y acciones recomendadas.
+
+La intencion no es automatizar criterio. Es crear un flujo de trabajo donde el analisis estadistico, la evidencia y la decision QA esten mejor conectados.
+
+## Cuando Usar Este Repo
+
+Usa estas skills cuando necesites analizar datos de calidad y convertirlos en una decision tecnica, por ejemplo:
+
+- determinar si un proceso esta estable;
+- evaluar si un sistema de medicion es adecuado para su uso previsto;
+- calcular capacidad de proceso con advertencias correctas;
+- priorizar defectos por frecuencia, costo, severidad o proveedor;
+- estructurar una CAPA con evidencia y verificacion de efectividad;
+- revisar un FMEA y convertir riesgos en controles accionables;
+- definir, analizar o reportar un DOE industrial;
+- generar un reporte tecnico en Quarto para documentar decision, evidencia y acciones.
 
 ## Skills Incluidas
 
@@ -27,18 +46,11 @@ Estas skills evitan tener que buscar manualmente la documentacion cada vez que s
 | `fmea-control-plan-skill` | AMEF/FMEA, riesgos, controles, acciones y plan de control. |
 | `root-cause-capa-skill` | 5 Why, Ishikawa, causa raiz, CAPA y verificacion de efectividad. |
 | `pareto-aql-inspection-skill` | Pareto, AQL, muestreo, inspeccion, curvas OC y priorizacion. |
-| `doe-industrial-experiments-skill` | DOE industrial completo: planificacion, diseno, modelo, analisis, RSM y confirmacion. |
+| `doe-industrial-experiments-skill` | DOE industrial: planificacion, diseno, modelo, analisis, RSM y confirmacion. |
 
-## Ejemplos De Uso
+## Comportamiento Esperado
 
-Usa el nombre de la skill con `$skill-name` cuando quieras forzar una especialidad. Combina una skill analitica con `qa-quarto-report-skill` cuando necesites un entregable final.
-
-### Comportamiento Automatico
-
-No necesitas pedir en cada prompt que Codex verifique paquetes, busque documentacion
-actualizada, seleccione el metodo o prepare el plan. Eso es parte del preflight
-automatico de `qa-r-analysis-core-skill` y de las skills especialistas cuando hay
-datos, R o reporte involucrado.
+No necesitas pedir en cada prompt que Codex verifique paquetes, busque documentacion actualizada, seleccione el metodo o prepare el plan. Eso es parte del preflight automatico de `qa-r-analysis-core-skill` y de las skills especialistas cuando hay datos, R o reporte involucrado.
 
 Por defecto, las skills deben:
 
@@ -48,9 +60,10 @@ Por defecto, las skills deben:
 4. verificar documentacion oficial si el paquete, funcion o metodo puede haber cambiado;
 5. elegir el paquete o workflow R mas adecuado y un fallback;
 6. preparar el plan de ejecucion antes del codigo final;
-7. pedir solo informacion que bloquee el analisis.
+7. pedir solo informacion que bloquee el analisis;
+8. separar evidencia estadistica, interpretacion tecnica y accion operativa.
 
-### Mapa Rapido De Seleccion
+## Mapa Rapido De Seleccion
 
 ```mermaid
 flowchart TD
@@ -74,7 +87,7 @@ flowchart TD
   Q -->|No| OUT["Codigo, tablas, graficos e interpretacion"]
 ```
 
-### Flujo Analisis Mas Reporte
+## Flujo Analisis Mas Reporte
 
 ```mermaid
 sequenceDiagram
@@ -91,7 +104,7 @@ sequenceDiagram
   Q-->>U: Entrega HTML, Word o PDF con decision, evidencia y acciones
 ```
 
-### Patron De Prompt Recomendado
+## Patron De Prompt Recomendado
 
 ```text
 Usa $skill-name y, si aplica, $qa-quarto-report-skill.
@@ -113,237 +126,102 @@ Restricciones:
 - Explica supuestos, riesgos y siguiente accion.
 ```
 
-### `qa-r-analysis-core-skill`
+## Ejemplos Rapidos
 
-**Prompt 1**
+### SPC
 
-> Usa `$qa-r-analysis-core-skill` con el archivo `datos/produccion.csv`.
->
-> Necesito saber que analisis QA corresponde, que datos parecen listos o riesgosos,
-> y cual seria el siguiente paso recomendado.
+```text
+Usa $spc-process-control-skill con datos/torque_final.csv.
 
-Resultado esperado: diagnostico de datos, metodo recomendado, paquetes sugeridos,
-riesgos de los datos y primer script R reproducible.
+Columnas: fecha_hora, linea, turno, lote, subgrupo, torque_nm.
 
-**Prompt 2**
+Selecciona la carta correcta entre I-MR, Xbar-R o Xbar-S segun la estructura real. Evalua estabilidad, senales especiales, patrones por turno o lote y explica si los limites deben mantenerse, investigarse o recalcularse.
 
-> Usa `$qa-r-analysis-core-skill` para preparar un analisis de capacidad no normal.
-> Quiero la recomendacion del metodo, paquete R activo y fallback si el paquete
-> preferido no esta instalado.
->
-> No uses paquetes archivados como default.
+Genera codigo R reproducible y una interpretacion operativa.
+```
 
-Resultado esperado: seleccion razonada de paquetes, fuentes oficiales revisadas o
-limitacion declarada, y ruta de implementacion.
+Resultado esperado: carta seleccionada, limites de control, senales, estratificacion util, advertencia si hay mezcla de procesos y plan de reaccion.
 
-### `qa-quarto-report-skill`
+### MSA
 
-**Prompt 1**
+```text
+Usa $msa-measurement-systems-skill con datos/msa_grr.csv.
 
-> Usa `$qa-quarto-report-skill` para crear `reports/capacidad_linea_1.qmd`
-> a partir de los resultados del analisis de capacidad.
->
-> Quiero salida HTML y Word, resumen ejecutivo al inicio, tabla de specs,
-> Cp/Cpk/Pp/Ppk, PPM observado, normalidad, estabilidad, riesgos y acciones
-> recomendadas. Usa el template general y deja una seccion de reproducibilidad
-> con `sessionInfo()`.
+Columnas: parte, operador, replica, medicion_mm.
 
-Resultado esperado: `.qmd` listo para renderizar, CSS copiado, comandos
-`quarto render` y reporte con estructura ejecutiva.
+El estudio es Gage R&R cruzado con 10 partes, 3 operadores y 3 replicas. La tolerancia total es 0.20 mm. Evalua repetibilidad, reproducibilidad, variacion parte-a-parte, interaccion parte-operador, %GRR, ndc y si el sistema sirve para decisiones de capacidad.
+```
 
-**Prompt 2**
+Resultado esperado: diagnostico del diseno MSA, resultados numericos, riesgos de medicion y decision de aceptabilidad para el uso previsto.
 
-> Usa `$qa-quarto-report-skill` para generar un reporte ejecutivo de una pagina
-> sobre una CAPA. Debe incluir decision, evidencia antes/despues, riesgo residual,
-> responsable, fecha objetivo y criterio de efectividad.
->
-> Entregalo como HTML autocontenido.
+### Capacidad De Proceso
 
-Resultado esperado: reporte breve para gerencia, sin sobrecargar con codigo ni salida
-de consola.
+```text
+Usa $process-capability-skill con datos/diametro_eje.csv.
 
-### `spc-process-control-skill`
+Columnas: fecha_hora, maquina, cavidad, diametro_mm.
+Specs: LSL 9.95, target 10.00, USL 10.05.
 
-**Prompt 1**
+Primero verifica cumplimiento observado contra specs, luego estabilidad con carta apropiada, normalidad, posible mezcla por maquina/cavidad y finalmente Cp, Cpk, Pp, Ppk, Cpm y PPM.
 
-> Usa `$spc-process-control-skill` con `datos/torque_final.csv`.
-> Columnas: `fecha_hora`, `linea`, `turno`, `lote`, `subgrupo`, `torque_nm`.
->
-> Selecciona la carta correcta entre I-MR, Xbar-R o Xbar-S segun la estructura real.
-> Evalua estabilidad, senales especiales, patrones por turno o lote y explica si
-> los limites deben mantenerse, investigarse o recalcularse.
->
-> Genera codigo R reproducible y una interpretacion operativa.
+Si no hay normalidad, propone alternativa y explica el riesgo.
+```
 
-Resultado esperado: carta seleccionada, limites de control, senales,
-estratificacion util, advertencia si hay mezcla de procesos y plan de reaccion.
+Resultado esperado: decision capaz/no capaz, causa principal del riesgo, recomendacion de centrar, reducir variacion, estratificar o mejorar medicion.
 
-**Prompt 2**
+### CAPA
 
-> Usa `$spc-process-control-skill` y `$qa-quarto-report-skill` para crear un reporte
-> de estabilidad de proceso. Incluye carta I-MR, resumen de puntos fuera de control,
-> posible causa por fecha/lote, decision estable/inestable, recomendaciones de
-> contencion y anexo con codigo R.
+```text
+Usa $root-cause-capa-skill para la NC-2026-014: aumento de fugas en empaque desde el 2026-05-20.
 
-Resultado esperado: reporte Quarto con evidencia visual y decision de estabilidad.
+Datos disponibles: defectos_por_lote.csv con lote, fecha, linea, turno, material, proveedor, defecto y cantidad.
 
-### `msa-measurement-systems-skill`
+Estructura contencion, 5 Why, Ishikawa, analisis de estratificacion, causa raiz verificada, accion correctiva, accion preventiva y criterio de efectividad.
+```
 
-**Prompt 1**
+Resultado esperado: narrativa CAPA completa, evidencia requerida para cada causa, acciones con responsables y prueba de efectividad.
 
-> Usa `$msa-measurement-systems-skill` con `datos/msa_grr.csv`.
-> Columnas: `parte`, `operador`, `replica`, `medicion_mm`.
->
-> El estudio es Gage R&R cruzado con 10 partes, 3 operadores y 3 replicas.
-> La tolerancia total es 0.20 mm. Evalua repetibilidad, reproducibilidad,
-> variacion parte-a-parte, interaccion parte-operador, %GRR, ndc y si el sistema
-> sirve para decisiones de capacidad.
+### DOE
 
-Resultado esperado: diagnostico del diseno MSA, resultados numericos, riesgos de
-medicion y decision de aceptabilidad para el uso previsto.
+```text
+Usa $doe-industrial-experiments-skill para planificar un DOE que reduzca humedad final.
 
-**Prompt 2**
+Respuesta: humedad_pct.
+Factores candidatos: temperatura 70-90 C, tiempo 20-40 min, velocidad 100-160 rpm, proveedor A/B.
+Restricciones: temperatura y tiempo son costosos de cambiar; maximo 24 corridas.
 
-> Usa `$msa-measurement-systems-skill` con `datos/atributos_inspeccion.csv`.
-> Columnas: `pieza`, `inspector`, `intento`, `resultado`, `estandar`.
->
-> Evalua acuerdo intra-inspector, acuerdo entre inspectores, acuerdo contra estandar,
-> kappa si aplica, falsos aceptados y falsos rechazados. Explica el riesgo para
-> liberacion de producto.
+Necesito detectar interacciones importantes y decidir si luego aplica superficie de respuesta. Entrega diseno recomendado, run table, aleatorizacion/bloqueo y codigo R.
+```
 
-Resultado esperado: matriz de acuerdo, indicadores de riesgo y recomendacion de
-entrenamiento, criterio visual o mejora del sistema de inspeccion.
+Resultado esperado: plan experimental defendible, diseno seleccionado, supuestos, corridas, modelo propuesto y riesgos por restricciones.
 
-### `process-capability-skill`
+### Reporte Quarto
 
-**Prompt 1**
+```text
+Usa $qa-quarto-report-skill para crear reports/capacidad_linea_1.qmd a partir de los resultados del analisis de capacidad.
 
-> Usa `$process-capability-skill` con `datos/diametro_eje.csv`.
-> Columnas: `fecha_hora`, `maquina`, `cavidad`, `diametro_mm`.
->
-> Specs: LSL 9.95, target 10.00, USL 10.05.
-> Primero verifica cumplimiento observado contra specs, luego estabilidad con carta
-> apropiada, normalidad, posible mezcla por maquina/cavidad y finalmente Cp, Cpk,
-> Pp, Ppk, Cpm y PPM.
->
-> Si no hay normalidad, propone alternativa y explica el riesgo.
+Quiero salida HTML y Word, resumen ejecutivo al inicio, tabla de specs, Cp/Cpk/Pp/Ppk, PPM observado, normalidad, estabilidad, riesgos y acciones recomendadas.
 
-Resultado esperado: decision capaz/no capaz, causa principal del riesgo,
-recomendacion de centrar, reducir variacion, estratificar o mejorar medicion.
+Usa el template general y deja una seccion de reproducibilidad con sessionInfo().
+```
 
-**Prompt 2**
+Resultado esperado: `.qmd` listo para renderizar, CSS copiado, comandos `quarto render` y reporte con estructura ejecutiva.
 
-> Usa `$process-capability-skill` y `$qa-quarto-report-skill` para entregar un
-> reporte Quarto de capacidad en HTML y Word. El reporte debe iniciar con una
-> decision ejecutiva, incluir histogramas, QQ plot, carta de estabilidad, tabla
-> de indices e interpretacion de riesgos para cliente.
+## Principios De Uso
 
-Resultado esperado: `.qmd` y artefactos renderizados con datos, graficos, indices
-y acciones recomendadas.
+Estas skills deben reforzar criterio tecnico, no reemplazarlo. Algunas reglas de trabajo:
 
-### `fmea-control-plan-skill`
+- No usar limites de especificacion como limites de control.
+- No interpretar capacidad como conclusion robusta si el proceso no esta estable, salvo como analisis exploratorio declarado.
+- No aceptar resultados estadisticos sin revisar el sistema de medicion cuando la decision dependa de mediciones.
+- No proponer paquetes archivados o sin mantenimiento como primera opcion.
+- No cerrar una CAPA sin evidencia de efectividad.
+- No tratar un Pareto como causa raiz; solo prioriza investigacion.
+- No usar AQL como prueba de capacidad de proceso.
+- No ejecutar DOE sin definir respuesta, factores, niveles, restricciones y criterio de confirmacion.
+- Separar evidencia estadistica, juicio operativo y decision documentada.
 
-**Prompt 1**
-
-> Usa `$fmea-control-plan-skill` con `pfmea_empaque.xlsx`.
-> Revisa funcion, modo de falla, efecto, causa, controles preventivos, controles
-> detectivos, severidad, ocurrencia y deteccion.
->
-> Identifica cadenas logicas debiles, controles mal clasificados, riesgos altos
-> sin accion, causas vagas como "error humano" y acciones sin evidencia.
-> No inventes tablas de rating: usa las columnas existentes y pide el manual si falta.
-
-Resultado esperado: lista priorizada de brechas, acciones recomendadas, riesgos que
-requieren escalacion y supuestos de rating.
-
-**Prompt 2**
-
-> Usa `$fmea-control-plan-skill` para convertir los riesgos altos del AMEF en un
-> plan de control. Para cada riesgo incluye caracteristica, especificacion, metodo
-> de control, tamano de muestra, frecuencia, responsable, registro requerido y
-> reaccion ante no conformidad.
-
-Resultado esperado: tabla de plan de control lista para revision con produccion/calidad.
-
-### `root-cause-capa-skill`
-
-**Prompt 1**
-
-> Usa `$root-cause-capa-skill` para la NC-2026-014: aumento de fugas en empaque
-> desde el 2026-05-20. Datos disponibles: `defectos_por_lote.csv` con lote, fecha,
-> linea, turno, material, proveedor, defecto y cantidad.
->
-> Estructura contencion, 5 Why, Ishikawa, analisis de estratificacion, causa raiz
-> verificada, accion correctiva, accion preventiva y criterio de efectividad.
-
-Resultado esperado: narrativa CAPA completa, evidencia requerida para cada causa,
-acciones con responsables y prueba de efectividad.
-
-**Prompt 2**
-
-> Usa `$root-cause-capa-skill` para analizar datos antes/despues de una accion
-> correctiva. Columnas: `periodo`, `lote`, `defectos`, `unidades_inspeccionadas`.
->
-> Evalua si la tasa de defectos bajo despues de la accion, si hay suficiente
-> evidencia para cerrar CAPA y que monitoreo adicional recomiendas.
-
-Resultado esperado: comparacion estadistica o grafica antes/despues, conclusion de
-efectividad y riesgo residual.
-
-### `pareto-aql-inspection-skill`
-
-**Prompt 1**
-
-> Usa `$pareto-aql-inspection-skill` con `datos/defectos_recibo.csv`.
-> Columnas: `fecha`, `proveedor`, `lote`, `defecto`, `clase_defecto`,
-> `cantidad`, `costo_estimado`.
->
-> Crea Pareto por conteo, costo y clase de defecto. Estratifica por proveedor y
-> recomienda los tres focos principales de mejora, aclarando si el Pareto sugiere
-> prioridad pero no causa raiz.
-
-Resultado esperado: tablas Pareto, graficos, prioridades por impacto y
-recomendaciones de investigacion.
-
-**Prompt 2**
-
-> Usa `$pareto-aql-inspection-skill` para evaluar inspeccion AQL de lotes de
-> 3,200 unidades, nivel general II, AQL 1.0 para defectos mayores y plan simple.
->
-> Explica tamano de muestra, numero de aceptacion/rechazo, curva OC, riesgo de
-> aceptar lotes malos y como documentar la decision de lote.
-
-Resultado esperado: plan de muestreo, regla de decision, interpretacion de riesgo
-productor/cliente y advertencia de que AQL no demuestra capacidad.
-
-### `doe-industrial-experiments-skill`
-
-**Prompt 1**
-
-> Usa `$doe-industrial-experiments-skill` para planificar un DOE que reduzca
-> humedad final. Respuesta: `humedad_pct`.
->
-> Factores candidatos: temperatura 70-90 C, tiempo 20-40 min, velocidad
-> 100-160 rpm, proveedor A/B. Restricciones: temperatura y tiempo son costosos
-> de cambiar; maximo 24 corridas.
->
-> Necesito detectar interacciones importantes y decidir si luego aplica superficie
-> de respuesta. Entrega diseno recomendado, run table, aleatorizacion/bloqueo
-> y codigo R.
-
-Resultado esperado: plan experimental defendible, diseno seleccionado, supuestos,
-corridas, modelo propuesto y riesgos por restricciones.
-
-**Prompt 2**
-
-> Usa `$doe-industrial-experiments-skill` y `$qa-quarto-report-skill` para analizar
-> un DOE con modelo, interacciones, diagnosticos, superficie de respuesta y corridas
-> de confirmacion.
-
-Resultado esperado: analisis ANOVA/modelo, efectos principales, interacciones,
-diagnosticos, RSM si aplica, configuracion recomendada y reporte Quarto.
-
-## Filosofia De Uso
+## Filosofia De Trabajo
 
 Cada skill sigue el mismo patron:
 
@@ -430,6 +308,14 @@ En esta maquina se encontro Quarto 1.9.37 y R 4.5.1. `Rscript.exe` esta instalad
 C:\Program Files\R\R-4.5.1\bin\Rscript.exe
 ```
 
-## Estado
+## Estado Del Proyecto
 
-Primera version funcional del paquete de skills QA en R. Las skills estan disenadas para evolucionar con casos reales, especialmente DOE, MSA y capacidad.
+Repositorio en desarrollo activo.
+
+La prioridad actual es consolidar workflows reproducibles, criterios de seleccion de metodos, plantillas R y reportes Quarto para analisis QA. Las skills estan disenadas para evolucionar conforme se validen con casos de datos reales o simulados, especialmente en DOE, MSA y capacidad.
+
+## Criterio Final
+
+El valor de estas skills no esta en producir mas codigo.
+
+Esta en ayudar a que el codigo, los datos y la interpretacion sostengan mejores decisiones de calidad.
